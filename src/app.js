@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 const path = require('path')
+const cors = require('cors')
+const corsOptions = require('./configs/corsOptions')
 const ErrorMiddleware = require('./middlewares/Error')
 const FileRouter = require('./routes/FileRouter')
 const API_FileRouter = require('./routes/api/API_FileRoute')
@@ -8,6 +10,7 @@ const API_FileRouter = require('./routes/api/API_FileRoute')
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static('public'))
+app.use(cors(corsOptions))
 
 /** Set View Engine */
 app.set('view engine', 'ejs')
