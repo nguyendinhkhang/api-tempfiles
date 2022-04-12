@@ -72,8 +72,8 @@ exports.downloadFile = async (req, res, next) => {
     const file = await File.findOne({ uuid: req.params.uuid })
     if (!file) return res.render('download', { error: 'This file could not be found.' })
     const filePath = `${__dirname}/../../${file.path}`
-    res.download(filePath)
+    res.status(200).json({ success: true, filePath })
   } catch (error) {
-    
+    console.log(error)
   }
 }
