@@ -1,5 +1,4 @@
 const fs = require('fs')
-const path = require('path')
 const File = require('./models/File')
 const connectDB = require('./configs/connectDB')
 const dotenv = require('dotenv')
@@ -12,7 +11,7 @@ const fetchData = async () => {
   if (files) {
     for(const file of files) {
       try {
-        fs.unlinkSync(path.join(__dirname, '..', `${file.path}`))
+        fs.unlinkSync(`${file.path}`)
         await file.remove()
         console.log(`Successfully deleted ${file.filename}`)
       } catch (error) {
