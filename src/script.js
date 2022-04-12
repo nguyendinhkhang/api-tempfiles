@@ -1,4 +1,5 @@
 const fs = require('fs')
+const path = require('path')
 const File = require('./models/File')
 const connectDB = require('./configs/connectDB')
 const dotenv = require('dotenv')
@@ -7,11 +8,11 @@ dotenv.config({ path: '.env' })
 connectDB()
 
 const fetchData = async () => {
-  const files = await File.find({ createAt: { $lt: new Date(Date.now() - process.env.FILE_EXPIRES * 24 * 60 * 60 * 1000) } })
-  if (files.length) {
+  const files = await File.find({ createdAt: { $lt: new Date(Date.now() - process.env.FILE_EXPIRES * 24 * 60 * 60 * 1000) } })
+  if (files) {
     for(const file of files) {
       try {
-        fs.unlinkSync(file.path)
+        fs.unlinkSync(path.join(__dirname, '..', `${file.path}`))
         await file.remove()
         console.log(`Successfully deleted ${file.filename}`)
       } catch (error) {
